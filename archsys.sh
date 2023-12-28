@@ -121,7 +121,8 @@ setupFstab(){
 }
 
 installArch(){
-
+    pacstrap /mnt base 
+    arch-chroot /mnt # need to test this 
 }
 
 setupBoot(){
@@ -198,4 +199,7 @@ fi
 checkConfig
 
 checkInternetConnection
+partitionDisk
+formatPartitions
+mountFilesystems
 
