@@ -1,5 +1,79 @@
 #!/bin/bash
 
+# Define ANSI color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[0;37m'
+NC='\033[0m' # No Color
+
+error(){
+    local msg=$1
+    echo '${RED}Error: ${msg}${NC}'
+}
+
+warn(){
+    local msg=$1
+    echo '${YELLOW}Warning: ${msg}${NC}'
+}
+
+okay(){
+    local msg=$1
+    echo '${GREEN}Okay: ${msg}${NC}'
+}
+
+info(){
+    local msg=$1
+    echo '${BLUE}Info: ${msg}${NC}'
+}
+
+usage(){
+    echo -e "Usage: $0 [OPTIONS]\n"
+    echo "Options:"
+    echo "  -h, --help                Display this help message"
+    echo "  --no-encrypt              Skip encryption"
+    echo "  --non-uefi                Install in BIOS mode (non-UEFI)"
+    echo "  --desktop ENV             Specify desktop environment(s) (e.g., --desktop kde)"
+    echo -e "\nExamples:"
+    echo "  $0 --no-encrypt --non-uefi --desktop kde"
+}
+
+VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,desktop: -- '$@')
+
+if [[ $? -ne 0 ]]; then 
+        exit 1;
+fi 
+
+eval set --  '$VALID_ARGS'
+
+while [ $# -gt 0 ]; do
+        case "$1" in
+            -h | --help)
+                usage
+                exit 0
+                shift 
+                ;;
+            --no-encrypt)
+                ENCRYPT=false
+                shift 
+                ;;
+            --non-uefi)
+                UEFI=false
+                shift 
+                ;;
+            --desktop)
+                shift
+                while [ $# -gt 0 ] && ! [[ $1 == -* ]]; do
+                    DESKTOP_ENVS+=("$1")
+                    shift
+                done
+                ;;
+        esac
+done
+
 # Installing GRUB
 if $UEFI; then 
     pacman -S --noconfirm --needed grub dosfstools os-prober mtools efibootmgr
@@ -59,8 +133,16 @@ elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
     pacman -S --noconfirm --needed libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa
 elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa
+elif grep -E "VMware SVGA" <<< ${gpu_type}; then
+    pacman -S --noconfirm --needed virtualbox-guest-utils xf86-video-vmware
+    systemctl enable vboxservice 
 fi 
-# ATTENTION FOR VBOX OTHER DRIVER!!!
 
-# Install desktop environmen
+# Install desktop environment
+if [[ $(echo ${DESKTOP_ENVS[@]} | fgrep -w kde) ]]
+info 'Installing KDE Plasma...'
+then
+    pacman -S --noconfirm --needed plasma-meta kde-applications
+    systemctl enable sddm
+fi
 
