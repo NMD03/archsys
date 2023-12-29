@@ -115,7 +115,7 @@ sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 
 # Set root pwd and create user
-if [ $(whoami) = 'root' ]; then
+if [ $(whoami) = "root" ]; then
     echo 'root:${ROOT_PWD}' | sudo chpasswd
     useradd -m -g users -G wheel ${USERNAME}
     echo '${USERNAME}:{USER_PWD}' | sudo chpasswd 
