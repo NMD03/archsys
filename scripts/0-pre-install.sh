@@ -79,6 +79,9 @@ while [ $# -gt 0 ]; do
                 DISK=$2  
                 shift 2 
                 ;;
+            *)  
+                break 
+                ;;
         esac
 done
 

@@ -126,6 +126,9 @@ nonInteractiveConfig(){
                     USER_PWD=$2  
                     shift 2
                     ;;
+                *)  
+                    break 
+                    ;;
             esac
     done
 }
