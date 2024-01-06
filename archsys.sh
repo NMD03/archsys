@@ -126,8 +126,9 @@ fi
 checkConfig
 
 # Run scripts
+# add non args 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-( bash $SCRIPT_DIR/scripts/0-pre-install.sh )|& tee 0-pre-install.log
-( arch-chroot /mnt $HOME/archsys/scripts/1-install.sh )|& tee 1-install.log
-( arch-chroot /mnt $HOME/archsys/scripts/2-post-install.sh )|& tee 2-post-install.log
+( bash $SCRIPT_DIR/scripts/0-pre-install.sh --encryption-passwd $ENCRYPTION_PASSWD -d $DISK)|& tee 0-pre-install.log
+( arch-chroot /mnt $HOME/archsys/scripts/1-install.sh --root $ROOT_PWD --username $USERNAME --user-pwd $USER_PWD)|& tee 1-install.log
+( arch-chroot /mnt $HOME/archsys/scripts/2-post-install.sh --desktop $DESKTOP_ENVS)|& tee 2-post-install.log
 ( arch-chroot /mnt $HOME/archsys/scripts/3-cleanup.sh )|& tee 3-cleanup.log
