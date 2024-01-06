@@ -92,7 +92,7 @@ YES
 $ENCRYPTION_PASSWD
 $ENCRYPTION_PASSWD
 EOF
-    echo -n $ENCRYPTION_PASSWD | cryptsetup open --type ${DISK}3 lvm
+    echo -n $ENCRYPTION_PASSWD | cryptsetup open ${DISK}3 lvm
     pvcreate --dataalignment 1m /dev/mapper/lvm
     vgcreate volgroup0 /dev/mapper/lvm
     lvcreate -L 30GB volgroup0 -n lv_root
@@ -103,7 +103,6 @@ EOF
     mkfs.ext4 /dev/volgroup0/lv_root
     mkfs.ext4 /dev/volgroup0/lv_home
 fi    
-
 
 # Mount partitions
 echo 'Mount partitions...'
