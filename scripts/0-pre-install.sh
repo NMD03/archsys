@@ -1,35 +1,5 @@
 #!/bin/bash
 
-# Define ANSI color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-CYAN='\033[0;36m'
-WHITE='\033[0;37m'
-NC='\033[0m' # No Color
-
-error(){
-    local msg=$1
-    echo '${RED}Error: ${msg}${NC}'
-}
-
-warn(){
-    local msg=$1
-    echo '${YELLOW}Warning: ${msg}${NC}'
-}
-
-okay(){
-    local msg=$1
-    echo '${GREEN}Okay: ${msg}${NC}'
-}
-
-info(){
-    local msg=$1
-    echo '${BLUE}Info: ${msg}${NC}'
-}
-
 usage(){
     echo -e "Usage: $0 [OPTIONS]\n"
     echo "Options:"
@@ -86,9 +56,9 @@ while [ $# -gt 0 ]; do
 done
 
 # Partition Disk 
-info 'Partitioning disk...'
+echo 'Partitioning disk...'
 if $UEFI && $ENCRYPT; then
-    fdisk << EOF
+    fdisk $DISK << EOF
 g
 n
 
@@ -113,7 +83,7 @@ fi
 
 
 # Format partitions
-info 'Formatting partitions...'
+echo 'Formatting partitions...'
 if $ENCRYPT && $UEFI; then
     mkfs.fat -F32 ${DISK}1
     mkfs.ext4 ${DISK}2 
@@ -136,7 +106,7 @@ fi
 
 
 # Mount partitions
-info 'Mount partitions...'
+echo 'Mount partitions...'
 if $ENCRYPT && $UEFI; then
     mount /dev/volgroup0/lv_root /mnt
     mkdir /mnt/boot
@@ -146,6 +116,6 @@ if $ENCRYPT && $UEFI; then
 
 
 # Setup fstab
-info 'Setup fstab...'
+echo 'Setup fstab...'
 mkdir /mnt/etc
 genfstab -U -p /mnt >> /mnt/etc/fstab
