@@ -89,9 +89,9 @@ locale-gen
 
 # Set root pwd and create user
 if [ $(whoami) = "root" ]; then
-    echo 'root:${ROOT_PWD}' | sudo chpasswd
+    echo "root:${ROOT_PWD}" | sudo chpasswd
     useradd -m -g users -G wheel ${USERNAME}
-    echo '${USERNAME}:{USER_PWD}' | sudo chpasswd 
+    echo "${USERNAME}:{USER_PWD}" | sudo chpasswd 
 fi 
 
 # Check if sudo is installed
@@ -100,5 +100,5 @@ if ! command -v sudo >/dev/null 2>&1; then
 fi
 
 # Enable sudo commands without passwd
-sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL' /etc/sudoers.tmp 
+sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers.tmp
 
