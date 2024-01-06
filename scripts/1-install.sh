@@ -100,5 +100,5 @@ if ! command -v sudo >/dev/null 2>&1; then
 fi
 
 # Enable sudo commands without passwd
-sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers.tmp
-
+sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+visudo -c 
