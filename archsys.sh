@@ -46,13 +46,13 @@ interactiveConfig(){
 }
 
 nonInteractiveConfig(){
-    VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,encryption-passwd:,disk:,desktop:,root:,username:,user-pwd: -- '$@')
+    VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,encryption-passwd:,disk:,desktop:,root:,username:,user-pwd: -- "$@")
 
     if [[ $? -ne 0 ]]; then 
             exit 1;
     fi 
 
-    eval set --  '$VALID_ARGS'
+    eval set --  "$VALID_ARGS"
 
     while [ $# -gt 0 ]; do
             case "$1" in
@@ -121,7 +121,7 @@ done
 if $interactive; then
     interactiveConfig
 else
-    nonInteractiveConfig '$@'
+    nonInteractiveConfig "$@"
 fi
 checkConfig
 
