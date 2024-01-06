@@ -88,7 +88,6 @@ if $ENCRYPT && $UEFI; then
     mkfs.fat -F32 ${DISK}1
     mkfs.ext4 ${DISK}2 
     cryptsetup luksFormat ${DISK}3 << EOF
-YES
 $ENCRYPTION_PASSWD
 $ENCRYPTION_PASSWD
 EOF
