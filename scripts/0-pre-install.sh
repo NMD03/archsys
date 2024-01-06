@@ -119,4 +119,4 @@ mkdir /mnt/etc
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 # Install base pkgs
-yes | pacstrap -i /mnt base
+pacstrap /mnt base
