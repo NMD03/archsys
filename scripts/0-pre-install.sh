@@ -18,13 +18,13 @@ ENCRYPT=true
 DISK=''
 
 # Set config
-VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,encryption-passwd:,disk: -- '$@')
+VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,encryption-passwd:,disk: -- "$@")
 
 if [[ $? -ne 0 ]]; then 
         exit 1;
 fi 
 
-eval set --  '$VALID_ARGS'
+eval set --  "$VALID_ARGS"
 
 while [ $# -gt 0 ]; do
         case "$1" in
