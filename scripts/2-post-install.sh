@@ -68,8 +68,8 @@ fi
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo 
 
 if $UEFI && $ENCRYPT; then
-    sed -i 's/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y' /etc/default/grub
-    sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=${DISK}3:volgroup0:allow-discards loglevel=3 quiet"' /etc/default/grub
+    sed -i.bak "s|^#GRUB_ENABLE_CRYPTODISK=y|GRUB_ENABLE_CRYPTODISK=y|g" /etc/default/grub
+    sed -i.bak "s|^GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"|GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=${DISK}3:volgroup0:allow-discards loglevel=3 quiet\"|g" /etc/default/grub
 fi
 
 grub-mkconfig -o /boot/grub/grub.cfg
