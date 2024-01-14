@@ -115,7 +115,7 @@ fi
 if [[ $(echo ${DESKTOP_ENVS[@]} | fgrep -w kde) ]]
 echo 'Installing KDE Plasma...'
 then
-    pacman -S --noconfirm --needed plasma-meta kde-applications
+    pacman -S --noconfirm --needed plasma-meta kde-applications sddm
     systemctl enable sddm
 fi
 
