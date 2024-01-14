@@ -11,6 +11,9 @@ usage(){
     echo "  $0 --no-encrypt --non-uefi --desktop kde"
 }
 
+UEFI=true
+ENCRYPT=true
+
 VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,desktop:,disk: -- "$@")
 
 if [[ $? -ne 0 ]]; then 
