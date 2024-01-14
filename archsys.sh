@@ -134,5 +134,5 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cp -r $HOME/archsys /mnt/root
 chmod +x /mnt/root/archsys/scripts/*.sh
 ( arch-chroot /mnt $HOME/archsys/scripts/1-install.sh --root $ROOT_PWD --username $USERNAME --user-pwd $USER_PWD)|& tee 1-install.log
-( arch-chroot /mnt $HOME/archsys/scripts/2-post-install.sh --desktop $desktop_envs_string)|& tee 2-post-install.log
+( arch-chroot /mnt $HOME/archsys/scripts/2-post-install.sh --desktop $desktop_envs_string -d $DISK)|& tee 2-post-install.log
 ( arch-chroot /mnt $HOME/archsys/scripts/3-cleanup.sh )|& tee 3-cleanup.log

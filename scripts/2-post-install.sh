@@ -11,7 +11,7 @@ usage(){
     echo "  $0 --no-encrypt --non-uefi --desktop kde"
 }
 
-VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,desktop: -- "$@")
+VALID_ARGS=$(getopt -o hd: --long help,no-encrypt,non-uefi,desktop:,disk: -- "$@")
 
 if [[ $? -ne 0 ]]; then 
         exit 1;
@@ -33,6 +33,10 @@ while [ $# -gt 0 ]; do
             --non-uefi)
                 UEFI=false
                 shift 
+                ;;
+            -d | --disk)
+                DISK=$2  
+                shift 2 
                 ;;
             --desktop)
                 shift
@@ -61,8 +65,8 @@ fi
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo 
 
 if $UEFI && $ENCRYPT; then
-    sed -i 's/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y'
-    sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=${DISK}3:volgroup0:allow-discards loglevel=3 quiet"'
+    sed -i 's/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y' /etc/default/grub
+    sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=${DISK}3:volgroup0:allow-discards loglevel=3 quiet"' /etc/default/grub
 fi
 
 grub-mkconfig -o /boot/grub/grub.cfg
