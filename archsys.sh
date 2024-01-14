@@ -109,6 +109,7 @@ if [ -z "$1" ]; then
     exit 0
 fi
 checkInternetConnection
+setDefault
 
 # Check for interactive installation
 interactive=false
